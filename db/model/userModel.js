@@ -13,7 +13,7 @@ module.exports = function(app, apiRoutes, jwt, User){
       return;
     }
 
-    User.findOne({ username : req.body.username, 'password': req.body.password}, { '_id': 0, 'username' : 1, 'password': 1}, function(err, user) {
+    User.findOne({ username : req.body.username, 'password': req.body.password}, { '_id': 1, 'username' : 1, 'password': 1}, function(err, user) {
       if(!user){
         res.json(
           {"status" : false,
@@ -59,10 +59,10 @@ module.exports = function(app, apiRoutes, jwt, User){
     req.body.created_at = new Date();
     var newUser = User(req.body);
     newUser.save(function(err) {
-      if (err.code == 11000){
+      if (err){
         res.json(
           {"status" : false,
-           "data"   : "Duplicate user"}
+           "data"   : err}
         );
         return;
       }
@@ -74,6 +74,35 @@ module.exports = function(app, apiRoutes, jwt, User){
       return;
 
     });
+  });
+
+  app.post('/api/resetpassword', function(req, res){
+    req.check('email', 'Invalid email').notEmpty();
+    req.check('email', 'Invalid email format email').isEmail();
+    var error = req.validationErrors();
+    if(error){
+      res.json(
+        {"status" : false,
+         "data"   : error}
+      );
+      return;
+    }
+
+    User.findOne({ email : req.body.email}, { '_id': 0, 'name' : 1, 'password': 1}, function(err, user) {
+      if(!user){
+        res.json(
+          {"status" : false,
+           "data"   : 'User not found'}
+        );
+        return;
+      }
+      res.json(
+          {"status" : true,
+           "data"   : "Email sended"}
+      );
+      return;
+    });
+    
   });
 
 }
