@@ -23,7 +23,7 @@ module.exports = function(app, apiRoutes, jwt, User){
       }
 
       var token = jwt.sign(user, app.get('superSecret'), {
-        expiresIn : 60*60*24
+        expiresIn : '24h'
       });
       res.json(
         {"status" : true,
