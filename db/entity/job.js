@@ -12,7 +12,7 @@ var jobSchema = new Schema({
   expiration_at: Date,
   created_at: Date,
   updated_at: Date,
-  location: {type: [Number], index: '2d'}
+  location_geo: {type: [Number], index: '2d'}
 });
 
 var Jon = mongoose.model('Job', jobSchema);

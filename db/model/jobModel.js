@@ -33,6 +33,7 @@ module.exports = function(app, apiRoutes, jwt){
         req.body.location.city        = geo[0].city;
         req.body.location.streetName  = geo[0].streetName;
         req.body.location.countryCode = geo[0].countryCode;
+        req.body.location_geo         = [13,12];
 
         req.body.created_at = new Date();
         req.body.requirements = JSON.parse(req.body.requirements);
