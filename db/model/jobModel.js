@@ -66,7 +66,7 @@ module.exports = function(app, apiRoutes, jwt){
 
   apiRoutes.post('/api/searchjobs', function(req, res){
 
-    
+
     
   });
 

@@ -11,7 +11,8 @@ var jobSchema = new Schema({
   location: [Schema.Types.Mixed],
   expiration_at: Date,
   created_at: Date,
-  updated_at: Date
+  updated_at: Date,
+  location: {type: [Number], index: '2d'}
 });
 
 var Jon = mongoose.model('Job', jobSchema);
