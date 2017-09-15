@@ -1,4 +1,4 @@
-module.exports = function(app, apiRoutes, jwt, User){
+module.exports = function(app, apiRoutes, jwt){
   var User = require('../entity/user.js');
 
   app.post('/api/authenticate', function(req, res){
@@ -60,10 +60,17 @@ module.exports = function(app, apiRoutes, jwt, User){
     var newUser = User(req.body);
     newUser.save(function(err) {
       if (err){
-        res.json(
-          {"status" : false,
-           "data"   : err}
-        );
+        if(err.code == 11000){
+            res.json(
+              {"status" : false,
+               "data"   : "user already created"}
+            );
+        }else{
+          res.json(
+              {"status" : false,
+               "data"   : "Weird error"}
+            );
+        }
         return;
       }
 

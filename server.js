@@ -40,6 +40,10 @@ require('./db/model/userModel.js')(app, apiRoutes, jwt);
 
 //INIT
 app.use('/api', apiRoutes);
+
+
+require('./db/model/jobModel.js')(app, apiRoutes, jwt);
+
 var port = process.env.PORT || 8000;
 app.listen(port);
 console.log("Fast money API");
