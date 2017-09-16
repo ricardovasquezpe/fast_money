@@ -18,20 +18,22 @@ apiRoutes.use(function(req, res, next) {
   if (token) {
     jwt.verify(token, app.get('superSecret'), function(err, decoded) {      
       if (err) {
-        return res.json(
-        	{ success : false, 
-        	  data    : 'Failed to authenticate token.' 
-        	});    
+        res.json(
+              {"status" : false,
+               "data"   : 'Failed to authenticate token' }
+            );
+        return;    
       }else{
         req.decoded = decoded;    
         next();
       }
     });
   }else{
-    return res.status(403).send({ 
-        success: false, 
-        message: 'No token provided.' 
-    });
+    res.json(
+          {"status" : false,
+           "data"   : 'No token provided' }
+        );
+    return;
   }
 });
 
@@ -41,8 +43,9 @@ require('./db/model/userModel.js')(app, apiRoutes, jwt);
 //INIT
 app.use('/api', apiRoutes);
 
-
-require('./db/model/jobModel.js')(app, apiRoutes, jwt);
+//MODELS
+require('./db/model/jobModel.js')(app, jwt);
+require('./db/model/bidModel.js')(app, jwt);
 
 var port = process.env.PORT || 8000;
 app.listen(port);
