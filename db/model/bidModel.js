@@ -75,4 +75,32 @@ module.exports = function(app, jwt){
     });
   });
 
+  app.post('/api/bidsjob', function(req, res){
+  	req.check('id_job', 'Invalid id_job').notEmpty();
+  	var error = req.validationErrors();
+    if(error){
+      res.json(
+        {"status" : false,
+         "data"   : error}
+      );
+      return;
+    }
+
+  	bid.find({ id_job : req.body.id_job }, { '__v' : 0, 'id_job' : 0 },function(err, bids) {
+        if (!bids){
+            res.json(
+              {"status" : false,
+               "data"   : "Bids not found"}
+            );
+        	return;
+        }
+
+        res.json(
+	        {"status" : true,
+	         "data"   : bids}
+	      );
+	    return;
+    });
+  });
+
 }
