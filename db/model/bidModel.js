@@ -65,7 +65,7 @@ module.exports = function(app, jwt){
 		    updated_at : new Date()
 		};
 
-        bid.update({ id_job : bidFound.id_job, _id: {'$ne' : bidFound._id } }, rejectBid, {"multi": true}, function(err, numberAffected, rawResponse) {
+        bid.update({ id_job : bidFound.id_job, _id: {'$ne' : bidFound._id } }, rejectBid, { "multi" : true }, function(err, numberAffected, rawResponse) {
 		   res.json(
 		        {"status" : true,
 		         "data"   : 'Bid accepted!'}
