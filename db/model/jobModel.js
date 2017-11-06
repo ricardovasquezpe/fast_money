@@ -34,7 +34,7 @@ module.exports = function(app, jwt){
         req.body.created_at = new Date();
         req.body.requirements = JSON.parse(req.body.requirements);
         req.body.payment      = JSON.parse(req.body.payment);
-        req.body.company_id   = req.decoded._doc._id;
+        req.body.id_company   = req.decoded._doc._id;
         var newJob = job(req.body);
         newJob.save(function(err) {
           if (err){
@@ -130,7 +130,7 @@ module.exports = function(app, jwt){
   });
 
   app.post('/api/myjobs', function(req, res){
-    job.find({ company_id : req.decoded._doc._id }, { '_id' : 1, 'title' : 1, 'location' : 1 }, function(err, jobs) {
+    job.find({ id_company : req.decoded._doc._id }, { '_id' : 1, 'title' : 1, 'location' : 1 }, function(err, jobs) {
         if (!jobs){
             res.json(
               {"status" : false,

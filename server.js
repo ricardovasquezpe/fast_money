@@ -46,6 +46,7 @@ app.use('/api', apiRoutes);
 //MODELS
 require('./db/model/jobModel.js')(app, jwt);
 require('./db/model/bidModel.js')(app, jwt);
+require('./db/model/favoriteModel.js')(app, jwt);
 
 var port = process.env.PORT || 8000;
 app.listen(port);
