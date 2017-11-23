@@ -147,7 +147,7 @@ module.exports = function(app, jwt){
     });
   });
 
-  app.post('/api/alljobs', function(req, res){
+  app.get('/api/alljobs', function(req, res){
     job.find({ }, { '_id' : 1, 'title' : 1, 'description' : 1, 'payment' : 1, 'location' : 1 }, function(err, jobs) {
         if (!jobs){
             res.json(
