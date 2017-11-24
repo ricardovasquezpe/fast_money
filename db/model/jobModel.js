@@ -147,8 +147,11 @@ module.exports = function(app, jwt){
     });
   });
 
-  app.get('/api/alljobs', function(req, res){
-    job.find({ }, { '_id' : 1, 'title' : 1, 'description' : 1, 'payment' : 1, 'location' : 1 }, function(err, jobs) {
+  app.post('/api/alljobs', function(req, res){
+    lastdate = (req.body.lastdate.length == 0) ? new Date() : req.body.lastdate;
+
+    job.find({ created_at : {"$lt": lastdate} }, { '_id' : 1, 'title' : 1, 'description' : 1, 'payment' : 1, 'location' : 1 }).sort({created_at: -1}).limit(10).exec(function(err, jobs) { 
+
         if (!jobs){
             res.json(
               {"status" : false,
@@ -162,7 +165,7 @@ module.exports = function(app, jwt){
            "data"   : jobs}
         );
       return;
-    });
+     });
   });
 
   app.post('/api/filterjobs', function(req, res){
