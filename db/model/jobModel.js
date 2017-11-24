@@ -150,7 +150,7 @@ module.exports = function(app, jwt){
   app.post('/api/alljobs', function(req, res){
     lastdate = (req.body.lastdate.length == 0) ? new Date() : req.body.lastdate;
 
-    job.find({ created_at : {"$lt": lastdate} }, { '_id' : 1, 'title' : 1, 'description' : 1, 'payment' : 1, 'location' : 1 }).sort({created_at: -1}).limit(10).exec(function(err, jobs) { 
+    job.find({ created_at : {"$lt": lastdate} }, { '_id' : 1, 'title' : 1, 'description' : 1, 'payment' : 1, 'location' : 1, 'created_at' : 1 }).sort({created_at: -1}).limit(10).exec(function(err, jobs) { 
 
         if (!jobs){
             res.json(
