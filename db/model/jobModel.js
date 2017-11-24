@@ -165,4 +165,22 @@ module.exports = function(app, jwt){
     });
   });
 
+  app.post('/api/filterjobs', function(req, res){
+    job.find({ title : { $regex: '.*' + req.body.description + '.*', $options: "i" }, "payment.type" : { $regex: '.*' + req.body.type + '.*'}, "location.country" : { $regex: '.*' + req.body.country + '.*', $options: "i"}}, { '_id' : 1, 'title' : 1, 'description' : 1, 'payment' : 1, 'location' : 1 }, function(err, jobs) {
+        if (!jobs){
+            res.json(
+              {"status" : false,
+               "data"   : "Jobs not found"}
+            );
+          return;
+        }
+
+        res.json(
+          {"status" : true,
+           "data"   : jobs}
+        );
+      return;
+    });
+  });
+
 }
