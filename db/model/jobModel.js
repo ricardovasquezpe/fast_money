@@ -27,7 +27,7 @@ module.exports = function(app, jwt){
 
     var geocoder = require('../../plugins/geocoder.js');
     req.body.location_geo = JSON.parse(req.body.location_geo);
-    geocoder.reverse({lat:-12.0778003, lon:-76.9596523})
+    geocoder.reverse({lat:req.body.location_geo[0], lon:req.body.location_geo[1]})
     .then( geo => {
         var location = {country:geo[0].country, city:geo[0].city, streetName:geo[0].streetName, countryCode:geo[0].countryCode};
         req.body.location = location;
@@ -166,7 +166,12 @@ module.exports = function(app, jwt){
   });
 
   app.post('/api/filterjobs', function(req, res){
-    job.find({ title : { $regex: '.*' + req.body.description + '.*', $options: "i" }, "payment.type" : { $regex: '.*' + req.body.type + '.*'}, "location.country" : { $regex: '.*' + req.body.country + '.*', $options: "i"}}, { '_id' : 1, 'title' : 1, 'description' : 1, 'payment' : 1, 'location' : 1 }, function(err, jobs) {
+
+
+    job.find({ title : { $regex: '.*' + req.body.description + '.*', $options: "i" }, "payment.type" : { $regex: '.*' + req.body.type + '.*'}, 
+               "location.country" : { $regex: '.*' + req.body.country + '.*', $options: "i"}/*,
+               "payment.amount" : { $gt: req.body.description, $lt: req.body.description }*/}, { '_id' : 1, 'title' : 1, 'description' : 1, 'payment' : 1, 'location' : 1 }).sort({created_at: -1}).exec(function(err, jobs) { 
+
         if (!jobs){
             res.json(
               {"status" : false,
@@ -180,7 +185,7 @@ module.exports = function(app, jwt){
            "data"   : jobs}
         );
       return;
-    });
+     });
   });
 
 }
