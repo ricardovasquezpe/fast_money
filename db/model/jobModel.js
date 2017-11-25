@@ -173,7 +173,7 @@ module.exports = function(app, jwt){
 
     job.find({ title : { $regex: '.*' + req.body.description + '.*', $options: "i" }, "payment.type" : { $regex: '.*' + req.body.type + '.*'}, 
                "location.country" : { $regex: '.*' + req.body.country + '.*', $options: "i"}/*,
-               "payment.amount" : { $gt: req.body.description, $lt: req.body.description }*/}, { '_id' : 1, 'title' : 1, 'description' : 1, 'payment' : 1, 'location' : 1 }).sort({created_at: -1}).exec(function(err, jobs) { 
+               "payment.amount" : { $gt: req.body.description, $lt: req.body.description }*/}, { '_id' : 1, 'title' : 1, 'description' : 1, 'payment' : 1, 'location' : 1, 'created_at' : 1 }).sort({created_at: -1}).exec(function(err, jobs) { 
 
         if (!jobs){
             res.json(
