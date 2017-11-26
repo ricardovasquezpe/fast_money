@@ -171,7 +171,7 @@ module.exports = function(app, jwt){
   app.post('/api/filterjobs', function(req, res){
     lastdate = (req.body.lastdate.length == 0) ? new Date() : req.body.lastdate;
 
-    job.find( created_at : {"$lt": lastdate} , title : { $regex: '.*' + req.body.description + '.*', $options: "i" }, "payment.type" : { $regex: '.*' + req.body.type + '.*'}, 
+    job.find({ created_at : {"$lt": lastdate} , title : { $regex: '.*' + req.body.description + '.*', $options: "i" }, "payment.type" : { $regex: '.*' + req.body.type + '.*'}, 
                "location.country" : { $regex: '.*' + req.body.country + '.*', $options: "i"}/*,
                "payment.amount" : { $gt: req.body.description, $lt: req.body.description }*/}, { '_id' : 1, 'title' : 1, 'description' : 1, 'payment' : 1, 'location' : 1, 'created_at' : 1 }).sort({created_at: -1}).limit(10).exec(function(err, jobs) { 
 
