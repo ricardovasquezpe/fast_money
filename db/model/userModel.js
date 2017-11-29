@@ -22,9 +22,9 @@ module.exports = function(app, apiRoutes, jwt){
         return;
       }
 
-      var token = jwt.sign(user, app.get('superSecret'), {
+      var token = jwt.sign(user, app.get('superSecret')/*, {
         expiresIn : '24h'
-      });
+      }*/);
       res.json(
         {"status" : true,
          "data"   : user,
