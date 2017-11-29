@@ -113,7 +113,7 @@ module.exports = function(app, jwt){
       return;
     }
 
-    job.findById(req.body.id_job, { '__v': 0, 'location_geo': 0 }, function (err, job) { 
+    job.findById(req.body.id_job, { '__v': 0 }, function (err, job) { 
       if(!job){
         res.json(
           {"status" : false,
