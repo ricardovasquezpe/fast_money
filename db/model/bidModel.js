@@ -3,7 +3,7 @@ module.exports = function(app, jwt){
 
   app.post('/api/createbid', function(req, res){
   	req.check('id_job', 'Invalid id_job').notEmpty();
-    req.check('id_user', 'Invalid id_user').notEmpty();
+    req.check('comment', 'Invalid comment').notEmpty();
 
     var error = req.validationErrors();
     if(error){
@@ -16,6 +16,7 @@ module.exports = function(app, jwt){
 
     req.body.created_at = new Date();
     req.body.status     = "created";
+    req.body.id_user    = req.decoded._doc._id;
     var newBid = bid(req.body);
     newBid.save(function(err) {
       if (err){
