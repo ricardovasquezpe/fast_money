@@ -5,7 +5,7 @@ var bidSchema = new Schema({
   id_job      : { type: String, required: true},
   id_user     : { type: String, required: true},
   status      : { type: String, required: true},
-  commet      : { type: String, required: true},
+  comment     : { type: String, required: true},
   created_at  : Date,
   updated_at  : Date
 });
