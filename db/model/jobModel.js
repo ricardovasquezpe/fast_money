@@ -1,5 +1,7 @@
 module.exports = function(app, jwt){
-  var job = require('../entity/job.js');
+  var job      = require('../entity/job.js');
+  var favorite = require('../entity/favorite.js');
+  var bid      = require('../entity/bid.js');
 
   app.post('/api/createjob', function(req, res){
     req.check('title', 'Invalid title').notEmpty();
@@ -121,11 +123,26 @@ module.exports = function(app, jwt){
         );
         return;
       }
-      res.json(
-          {"status" : true,
-           "data"   : job}
-      );
-      return;
+
+      job = job.toObject();
+      favorite.find({ id_user : req.decoded._doc._id, id_job : req.body.id_job }, { '_id' : 1 }, function(err, favorite) {
+          if (favorite.length){
+              job.favorite = favorite[0]._id;
+          }
+
+          bid.find({ id_user : req.decoded._doc._id, id_job : req.body.id_job }, { '_id' : 1 }, function(err, bid) {
+            if (bid.length){
+                job.bid = bid[0]._id;
+            }
+
+            res.json(
+              {"status" : true,
+               "data"   : job}
+          );
+          return;
+
+          });
+      });
     });
   });
 
