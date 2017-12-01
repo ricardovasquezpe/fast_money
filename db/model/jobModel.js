@@ -126,13 +126,15 @@ module.exports = function(app, jwt){
 
       job = job.toObject();
       favorite.find({ id_user : req.decoded._doc._id, id_job : req.body.id_job }, { '_id' : 1 }, function(err, favorite) {
+          job.id_favorite = "";
           if (favorite.length){
-              job.favorite = favorite[0]._id;
+              job.id_favorite = favorite[0]._id;
           }
 
           bid.find({ id_user : req.decoded._doc._id, id_job : req.body.id_job }, { '_id' : 1 }, function(err, bid) {
+            job.id_bid = "";
             if (bid.length){
-                job.bid = bid[0]._id;
+                job.id_bid = bid[0]._id;
             }
 
             res.json(
