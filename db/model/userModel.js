@@ -112,4 +112,32 @@ module.exports = function(app, apiRoutes, jwt){
     
   });
 
+  app.post('/api/profiledetails', function(req, res){
+    req.check('id_user', 'Invalid id_user').notEmpty();
+    var error = req.validationErrors();
+    if(error){
+      res.json(
+        {"status" : false,
+         "data"   : error}
+      );
+      return;
+    }
+
+    User.findById(req.body.id_user, { '__v': 0 }, function (err, user) { 
+      if(!user){
+        res.json(
+          {"status" : false,
+           "data"   : 'User not found'}
+        );
+        return;
+      }
+      res.json(
+          {"status" : true,
+           "data"   : user}
+      );
+      return;
+    });
+    
+  });
+
 }
